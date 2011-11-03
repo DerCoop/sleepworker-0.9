@@ -1,0 +1,261 @@
+." Set the title
+.TH SLEEPWORKER 8
+." Add a header for the name section
+
+.SH NAME
+sleepworker - observes a UNIX machine for idle time. Executes commands at sleep and wakeUp time.
+
+.SH SYNOPSIS
+sleepworker
+[-h]
+[-I
+." put the key words into italics
+.I initCommand]
+[-S
+.I sleepCommand]
+[-W
+.I wakeUpCommand]
+[-C
+.I cleanUpCommand]
+[-s
+.I timeToSleep]
+[-w
+.I timeToWait]
+[-l
+.I loadAvgValue]
+[-o
+.I OutputFileName]
+[-i
+.I InputFileName]
+[-v]
+
+.SH AVAILABILITY 
+This daemon is written for all UNIX OS, where the mouse and keyboard-eventfiles are stored in the 
+.I /dev/input/by-path
+directory.
+
+.SH DESCRIPTION
+.B sleepworker 
+is a UNIX daemon which observes your UNIX machine for idle time. With the help of this daemon you can execute commands or programs during idle time. If the machine wake up while idle time, the daemon will execute another command
+.PP
+To detect activity or inactivity, the 
+.B sleepworker
+polls by default the device/event files from mouse and keyboard. These are all
+.I /dev/input/by-path/*event-mouse*
+and
+.I /dev/input/by-path/*event-kbd*
+files. These files where created by default for every inputdevice like mouse and keyboard. Thereby it is equal wheter it is an USB or PS/2 device.
+.PP
+At the begin, the
+.B sleepworker 
+is in state
+.B WAITING .
+If the 
+.B sleepworker 
+don't detect an event for
+.B TIME_TO_SLEEP
+, the sleep command will executed. After this, the 
+.B sleepworker 
+change the state to
+.B SLEEPING 
+and polls for new events, without any timeouts. If there occur an event while the
+.B sleepworker 
+is in state
+.B SLEEPING
+, the wakeup command will executed and the state changed back to
+.B WAKEUP.
+The state
+.B WAKEUP
+, is similar to the state
+.B WAITING 
+whithin the execution of the
+.B WAKEUP
+command.
+.PP
+.B NOTE, 
+after an event occoured or the load value is too hight at the start of polling, the program will sleep
+.B TIME_TO_WAIT 
+seconds befor the next poll starts. 
+.PP
+.B Hint, 
+if the 
+.B sleepworker 
+is closed, only if there is no slepcommand defined, it will delete the 
+.B SLEEPFILE 
+which is created at sleepmode by default. If you are using an different command, you had to clean it on your own (of course with the definition by an cleanUp script)
+
+.SH OPTIONS
+.SS -h, --help
+Display the usage information for 
+.B sleepworker
+
+.SS -I, --initcommand
+Set the
+.I init command. 
+This command will executed at the start of the 
+.B sleepworker . 
+You can use this command to define a skript or program, which 
+will be executed if you start the sleepworker.
+
+.SS -S, --sleepcommand
+Set the
+.I sleep command. 
+This command will executed, if the daemon is in state 
+.B SLEEPING. 
+By default, the 
+.B sleepworker
+will create an file named
+.I sleepworker
+at the
+.I /tmp/
+directory.
+
+.SS -W, --wakeupcommand
+Set the
+.I wake up command. 
+This command will executed, if the daemon is in state
+.B WAKEUP. 
+By default, the 
+.B sleepworker 
+will delete the file, which as create by default
+.I sleep command.
+
+.SS -C, --cleanupcommand
+Set the
+.I clean up command. 
+This command will executed, if the 
+.B sleepworker 
+is closed.
+You can use this command to define a skript or program, which
+will be executed if you close the sleepworker.
+
+.SS -s, --sleeptime
+Set the
+.B SLEEPTIME
+in seconds. These time the machine will checking for events, befor go to state
+.B SLEEPING. 
+The default value of this option is 3600 seconds.
+
+.SS -w, --waittime
+Set the
+.B WAITTIME 
+in seconds. These time the daemon will wait after an event occur, befor start to poll again.
+The dafault value of this option is 600 seconds.
+
+.SS -l, --loadavg
+Set the maximum value of load average 1min. By defaul, this value is set to 1.5
+
+.SS -o, --outputfile
+Write output to the 
+.I output file. 
+If this option is not used, the output will printed to 
+.B stdout.
+
+.SS -v, --verbose
+Print verbose messages. These messages were print to 
+.I output file 
+or, if not exist, to 
+.B stdout.
+
+.SS -i, --inputfile
+If this option is set, all arguments were read from 
+.I input file. 
+All other options, which were commited by commandline will be ignored.
+
+.SH EXAMPLES
+.SS print syntax
+sleepworker -h
+
+.SS start the daemon with default values
+sleepworker
+
+.SS set sleeptime to 3500 seconds an print all output to <outputFile>
+sleepworker -s 3500 -o outputfile.txt --verbose
+
+.SS get arguments from <inputFile>
+sleepworker -i inputFile
+
+.SS example for an input file
+all options are set in style <OPTION>=<value>. Lines with comments start with ''#''. All unknown options were ignored.
+.PP
+# this is an example for an inputfile with all known options 
+.br
+# this is a comment
+.br
+INITCOMMAND=echo "[INFO] sleepworker is starting"
+.br
+SLEEPCOMMAND=echo "[INFO] node is sleeping"
+.br
+WAKEUPCOMMAND=echo "[INFO] node waked up"
+.br
+CLEANUPCOMMAND=echo "[INFO] sleepworker is closed"
+.br
+SLEEPTIME=1
+.br
+WAITTIME=1
+.br
+LOADAVG=1.4
+.br
+VERBOSE=on
+.br
+OUTPUT=outputfile
+
+.SH NOTES 
+The main of the 
+.B sleepworker 
+is an so called 'atomloop'. That means that this loop never ends. To exit the 
+.B sleepworker
+the signal
+.B SIGINT
+will be send. If this signal arrives, the 
+.B sleepworker 
+will close all open files and free all alocated memory.
+
+.SH MESSAGES AND EXITCALLS
+Because if the so called 'atomloop' in the body of the 
+.B sleepworker 
+there are no exitcalls.
+.PP
+All critocal messages are writte to stderr. These messages starts with [INFO], [ERROR] or [WARNING] or so on. Not all errors go to the exit of the daemon!
+.PP
+You only can poll the eventfiles, if you are an administrativ user at the system, thatswhy the 
+.B sleepworker 
+exits with the message '[ERROR] error opening event: Permission denied' if you dont have permissions to read these files.
+
+.SH AUTHOR
+Cooper  <dercoop@users.sf.net>
+
+.SH HISTORY
+At june 2011 the sleepworker goes online with the initial release at the version 0.9. Actually the version 0.9.05  is the actually version.
+
+.SH RESSOURCES
+coming soon
+
+.SH FILES
+The executor of the sleepworker needs privilegs to read all files from 
+.I /dev/input/by-path/*.
+.br
+If there is no sleepCommand given, the directory
+.I /var/cache/
+had to exist with writing privileges for the executor.
+
+.SH BUGS
+It is possible, that the default sleepcommand write an error, because of the "creat" funktion. If this happens, the output to stderr is like "[ERROR] cant create sleepfile: Bad file descriptor". A possible HowTo for this bug is to set the sleepcommand "touch /tmp/sleepfile"
+
+.SH CAVEATS
+Because of the 'atomloop' at the main of this program, send the 
+.I SIGINT
+signal to end the 
+.B slepworker
+regulary. This command can send by pressing 
+.B CTRL C
+in the execution terminal. If the daemon runs in backround, you can send the signal by typing
+.I kill -SIGINT <PID>
+. The <PID> is the Process ID of the 
+.B sleepworker
+
+.SH SEE ALSO
+.SS The Project Homepage:
+<http://sleepworker.sourceforge.net/>
+.SS The project summary page
+<https://sourceforge.net/projects/sleepworker/>

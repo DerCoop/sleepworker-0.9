@@ -1,0 +1,87 @@
+sleepworker (0.9.05-1) unstable
+
+	* ATTENTION change short parameters of input and outputfile from Big I and O to small letters i and o, because the big letter I is used for init command
+	* clean the headerfiles (not finished, but started ;) )
+	* implement an init and close method (Tracker ID ID: 3390960)
+	* chk for root (not realy implemented, see todo)
+	* update of the manpage
+	* write an PID file at /var/run/sleepworker.pid, if you have perrmissions to write at these directory
+
+ -- Cooper <dercoop@users.sf.net>  Mon, 18 Aug 2011 01:02:43 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
+
+sleepworker (0.9.04-1) unstable
+
+	* flush outputstream
+	* expand length of lines
+	* chk for root (not ready)
+
+ -- Cooper <dercoop@users.sf.net>  Mon, 08 Aug 2011 2:39:51 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
+
+sleepworker (0.9.03-1) unstable
+
+	* correct manpage
+	* correct changelog
+
+ -- Cooper <dercoop@users.sf.net>  Mon, 06 Jun 2011 01:23:51 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
+
+sleepworker (0.9.02-1) unstable
+
+	* correct manpage
+	* correct changelog
+
+ -- Cooper <dercoop@users.sf.net>  Mon, 06 Jun 2011 01:23:51 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
+
+sleepworker (0.9.01-1) unstable
+
+	* correct version
+
+ -- Cooper <dercoop@users.sf.net>  Mon, 05 Jun 2011 23::01:51 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
+
+sleepworker (0.9-1) unstable
+
+	* correct manpage
+	* correct help
+
+ -- Cooper <dercoop@users.sf.net>  Thu, 02 Jun 2011 17:32:51 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
+sleepworker (0.9-1) unstable
+
+	* Initial release
+	* this is the first version of sleepworker
+	* no upstream changes
+
+ -- Cooper <dercoop@users.sf.net>  Thu, 02 Jun 2011 17:32:51 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+

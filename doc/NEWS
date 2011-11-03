@@ -1,0 +1,14 @@
+sleepworker for Linux
+----------------------
+
+18.08.2011	--	implement an init and close method (Tracker ID ID: 3390960)
+		--	chk for root (not realy implemented)
+		--	ATTENTION change short parameters of input and outputfile from Big I and O to small letters i and o, because the big letter I is used for init command
+		--	first ASCII logo from sleepworker was created
+
+08.08.2011	--	flush outputstream
+		--	now the outputstream is printed directly to the File
+
+XX.06.2011	--	First Version of deian package from sleepdaemon
+
+ -- Cooper <dercoop@users.sf.net> 

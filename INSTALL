@@ -1,0 +1,47 @@
+                  ,.
+                ,´  `,
+               ,´     `,
+              ,´        `,
+             ,´ ,´.       `. 
+            ,´,´  ´..    ...`,
+            ##   (..#-###-.#..)
+           #@#   ,'.- .  .--. .          
+           ##    |: _ | :  _ :|          
+                 |`(@)--`.(@) |          
+                 : .'     `-, :          
+                 :(_____.-'.' `          
+                 : `-.__.-'   :        ,    ,  
+       ,´\       `  _.    _.   .      ( (  ) )
+     ,´   \     /  /  `_ '  \    .     ` - ,´
+   ,´    ,´    .  :          \\   \    /  /
+ ,´    ,´\    .  : _      __  .\   .  /  /
+|    ,´\  \  .  /             : `.  \/  / 
+|__,´   \  \:  /  sleepworker  : `..´  /
+         \ '  `      :          :    _/
+         .`_ : no time to sleep /(,  ,)
+         :' \ .      :         /  ._.-
+      .--'   \`-._    .      .^. .^   ^  
+    ..|       \   )          :  `' `,´ ` 
+   ;           \-'.        ..:         / 
+   '.           \  - ....-   |        '  
+      -.         :   _____   |      .'   
+        ` -.    .'--       --`.   .'     
+            `--                --        
+
+
+sleepworker has been sucessfully tested on ubuntu >= 10.04 with x86 and x86_64. Please drop us a short mail, if it runs sucessfully on hardware or operatingsystems other than that.
+
+What libraries are required? You'll need only the standard C libraries. It is common, that these libraries are shipped as distribution packages for an easy installation.
+
+The installation process is fairly simple:
+
+  $ cd sleepworker/
+  $ ./configure
+  $ make
+  # make install
+
+The uninstallation process is analogous:
+
+  $ cd sleepworker/
+  # make uninstall
+
