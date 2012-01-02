@@ -140,6 +140,17 @@ int ew_eventWatch(int time) {
 
     ew_eventInit();
 
+    /**
+     * if there are no events open, close
+     */
+
+    if (_ew_countEvents == 0 ) {
+	DEBUG(("There are no events to open\n"));
+        (parameter.errorFile,
+            "[ERROR] session will be closed\n");
+	return (-1);
+    }
+
     for (i = 0; i < _ew_countEvents; i++)
         DEBUG(("EventNo %d: FD: %d\n", i, _ew_events[i].fd));
 

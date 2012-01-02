@@ -346,6 +346,12 @@ int main(int argc, char** argv) {
 	                        "execute sleepCommand\n");
 	                sleepf();
 		}
+	    } else if (rc < 0) {
+		output(parameter.outputFile, "cant open events\n");
+                mode = WAITING;
+                output(parameter.outputFile, "start new in %d seconds\n",
+                        parameter.timeToWait);
+                sleep(parameter.timeToWait);
             } else {
                 DEBUG(("rc = %d \n", rc));
                 output(parameter.outputFile, "an event occurred\n");

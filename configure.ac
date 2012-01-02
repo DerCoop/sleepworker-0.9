@@ -1,9 +1,9 @@
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([sleepworker], [0.9.06], [dercoop@users.sf.net])
+AC_INIT([sleepworker], [0.9.07], [dercoop@users.sf.net])
 AC_PREREQ([2.65])
-AM_INIT_AUTOMAKE([sleepworker], [0.9.06])
-AC_DEFINE(VERSION, [0.9.06]) 
+AM_INIT_AUTOMAKE([sleepworker], [0.9.07])
+AC_DEFINE(VERSION, [0.9.07]) 
 # or AC_DEFINE(DEBUG)
 AC_CONFIG_SRCDIR([src/sleepworker.c])
 #AC_CONFIG_HEADERS([config.h])

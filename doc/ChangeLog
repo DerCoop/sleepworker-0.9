@@ -1,3 +1,13 @@
+sleepworker (0.9.07-1) stable
+	* add a handler to handle the situation is no mouse or keyboard is found
+
+ -- Cooper <dercoop@users.sf.net>  Mon, 01 Jan 2012 01:02:43 +0200
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
+
 sleepworker (0.9.05-1) unstable
 
 	* ATTENTION change short parameters of input and outputfile from Big I and O to small letters i and o, because the big letter I is used for init command
