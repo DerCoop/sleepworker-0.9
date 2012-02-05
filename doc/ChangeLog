@@ -1,7 +1,16 @@
+sleepworker (0.9.08-1) stable
+	* add handler for disabling loadvalue test
+
+ -- Cooper <dercoop@users.sf.net>  Mon, 05 Feb 2012 11:02:43 +0100
+
+     Local variables:
+     mode: debian-changelog
+     End:
+
 sleepworker (0.9.07-1) stable
 	* add a handler to handle the situation is no mouse or keyboard is found
 
- -- Cooper <dercoop@users.sf.net>  Mon, 01 Jan 2012 01:02:43 +0200
+ -- Cooper <dercoop@users.sf.net>  Mon, 01 Jan 2012 01:02:43 +0100
 
      Local variables:
      mode: debian-changelog

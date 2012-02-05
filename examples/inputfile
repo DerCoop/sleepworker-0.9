@@ -1,9 +1,9 @@
 # this is a comment
 SLEEPCOMMAND=echo "[INFO] node is sleeping"
 WAKEUPCOMMAND=echo "[INFO] node waked up"
-SLEEPTIME=120
+SLEEPTIME=12
 ILLEGAL is illegal command
-WAITTIME=60
-LOADAVG=1.4
+WAITTIME=6
+LOADAVG=0.0
 VERBOSE=on
-OUTPUT=outputfile
+#OUTPUT=outputfile

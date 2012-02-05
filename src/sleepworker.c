@@ -54,14 +54,14 @@ params_t parameter;
  * \return
  */
 void output(FILE* stream, const char *fmt, ...) {
-    va_list ap;
-    va_start(ap, fmt);
-    if (parameter.verbose || stream == stderr)
-        vfprintf(stream, fmt, ap);
-    va_end(ap);
-    fflush(stream);
+	va_list ap;
+	va_start(ap, fmt);
+	if (parameter.verbose || stream == stderr)
+		vfprintf(stream, fmt, ap);
+	va_end(ap);
+	fflush(stream);
 
-    return;
+	return;
 }
 
 /**
@@ -73,36 +73,36 @@ void output(FILE* stream, const char *fmt, ...) {
  *
  */
 void initialize(int argc, char** argv) {
-    FILE *tmpfd;
-    
-    /* initialize params */
-    is_initArgs();
+	FILE *tmpfd;
 
-    is_parseCommandLine(argc, argv);
-    is_printArguments();
+	/* initialize params */
+	is_initArgs();
 
-    /* delete sleepfile, if exists */
-    unlink(SLEEPFILE);
-    
-    /* create PID file with current PID */
-    if ((tmpfd=fopen(PID_FILE, "w")) == NULL) {
-        output(parameter.errorFile,
-	    "[WARNING] cant create PID file: %s\n",
-            strerror(errno));
-    } else {
-	fprintf(tmpfd, "%i\n", getpid());
-	fclose(tmpfd);
-    }
-    
-    if (parameter.initCommand) { //user defined initCommand
-	if ((system(parameter.initCommand)) != 0) {
-	    output(parameter.errorFile,
-		"[ERROR] cant execute initCommand: ''%s''\n",
-		parameter.initCommand);
+	is_parseCommandLine(argc, argv);
+	is_printArguments();
+
+	/* delete sleepfile, if exists */
+	unlink(SLEEPFILE);
+
+	/* create PID file with current PID */
+	if ((tmpfd=fopen(PID_FILE, "w")) == NULL) {
+		output(parameter.errorFile,
+		       "[WARNING] cant create PID file: %s\n",
+		       strerror(errno));
+	} else {
+		fprintf(tmpfd, "%i\n", getpid());
+		fclose(tmpfd);
 	}
-    }
 
-    return;
+	if (parameter.initCommand) { //user defined initCommand
+		if ((system(parameter.initCommand)) != 0) {
+			output(parameter.errorFile,
+			       "[ERROR] cant execute initCommand: ''%s''\n",
+			       parameter.initCommand);
+		}
+	}
+
+	return;
 }
 
 /**
@@ -120,38 +120,38 @@ void initialize(int argc, char** argv) {
  *
  */
 void cleanUp() {
-    
-    /* delete the sleepfile, if exists */ 
-    if (parameter.sleepCommand) {
-        unlink(SLEEPFILE);
-    }
-     
-    /* free mem */
-    output(parameter.outputFile, "Free all mem\n");
-    free(parameter.sleepCommand);
-    free(parameter.wakeUpCommand);
-    free(parameter.outputFilename);
 
-    /* delete PID file, if exists */
-    output(parameter.outputFile, "delete PID file '%s' \n",
-            PID_FILE);
-    unlink(PID_FILE);
-    
-    /* close output and errorfiles */
-    output(parameter.outputFile, "close outputfile '%s' \n",
-            parameter.outputFilename);
-    fclose(parameter.outputFile);
-    fclose(parameter.errorFile);
-
-    if (parameter.cleanUpCommand) { //user defined cleanUpCommand
-	if ((system(parameter.cleanUpCommand)) != 0) {
-	    output(parameter.errorFile,
-		"[ERROR] cant execute cleanUpCommand: ''%s''\n",
-		parameter.initCommand);
+	/* delete the sleepfile, if exists */ 
+	if (parameter.sleepCommand) {
+		unlink(SLEEPFILE);
 	}
-    }
 
-    return;
+	/* free mem */
+	output(parameter.outputFile, "Free all mem\n");
+	free(parameter.sleepCommand);
+	free(parameter.wakeUpCommand);
+	free(parameter.outputFilename);
+
+	/* delete PID file, if exists */
+	output(parameter.outputFile, "delete PID file '%s' \n",
+	       PID_FILE);
+	unlink(PID_FILE);
+
+	/* close output and errorfiles */
+	output(parameter.outputFile, "close outputfile '%s' \n",
+	       parameter.outputFilename);
+	fclose(parameter.outputFile);
+	fclose(parameter.errorFile);
+
+	if (parameter.cleanUpCommand) { //user defined cleanUpCommand
+		if ((system(parameter.cleanUpCommand)) != 0) {
+			output(parameter.errorFile,
+			       "[ERROR] cant execute cleanUpCommand: ''%s''\n",
+			       parameter.initCommand);
+		}
+	}
+
+	return;
 }
 
 /**
@@ -163,23 +163,23 @@ void cleanUp() {
  *
  */
 void sleepf() {
-    if (!parameter.sleepCommand) { //default sleepCommand
-        int tmpfd;
-        tmpfd = creat(SLEEPFILE, S_IRWXU);
-        if (tmpfd < 0) { //return -1 if failed
-            output(parameter.errorFile,
-                    "[ERROR] cant create sleepfile: %s\n",
-                    strerror(errno));
-        }
-        close(tmpfd);
-    } else {
-	if ((system(parameter.sleepCommand)) != 0) {
-	    output(parameter.errorFile,
-		"[ERROR] cant execute sleepCommand: ''%s''\n",
-		parameter.initCommand);
+	if (!parameter.sleepCommand) { //default sleepCommand
+		int tmpfd;
+		tmpfd = creat(SLEEPFILE, S_IRWXU);
+		if (tmpfd < 0) { //return -1 if failed
+			output(parameter.errorFile,
+			       "[ERROR] cant create sleepfile: %s\n",
+			       strerror(errno));
+		}
+		close(tmpfd);
+	} else {
+		if ((system(parameter.sleepCommand)) != 0) {
+			output(parameter.errorFile,
+			       "[ERROR] cant execute sleepCommand: ''%s''\n",
+			       parameter.initCommand);
+		}
 	}
-    }
-    return;
+	return;
 }
 
 /**
@@ -191,23 +191,23 @@ void sleepf() {
  *
  */
 void wakeupf() {
-    if (!parameter.wakeUpCommand) { //default wakeUp command
-        int tmpfd;
-        tmpfd = unlink(SLEEPFILE);
-        if (tmpfd != 0) {
-            output(parameter.errorFile,
-                    "[ERROR] cant delete sleepfile: %s\nerorcode is %s\n",
-                    SLEEPFILE, strerror(errno));
-        }
-        close(tmpfd);
-    } else {
-	if ((system(parameter.wakeUpCommand)) != 0) {
-	    output(parameter.errorFile,
-		"[ERROR] cant execute wakeUpCommand: ''%s''\n",
-		parameter.initCommand);
+	if (!parameter.wakeUpCommand) { //default wakeUp command
+		int tmpfd;
+		tmpfd = unlink(SLEEPFILE);
+		if (tmpfd != 0) {
+			output(parameter.errorFile,
+			       "[ERROR] cant delete sleepfile: %s\nerorcode is %s\n",
+			       SLEEPFILE, strerror(errno));
+		}
+		close(tmpfd);
+	} else {
+		if ((system(parameter.wakeUpCommand)) != 0) {
+			output(parameter.errorFile,
+			       "[ERROR] cant execute wakeUpCommand: ''%s''\n",
+			       parameter.initCommand);
+		}
 	}
-    }
-    return;
+	return;
 }
 
 /**
@@ -224,21 +224,21 @@ void wakeupf() {
  */
 void sigHandler(int signum) {
 
-    switch (signum) {
-        case SIGINT:
-            output(parameter.errorFile, "\n[INFO] Caught signal %s\n", "SIGINT");
-            output(parameter.outputFile, "\nCaught signal %s\n", "SIGINT");
-            output(parameter.errorFile, "[INFO] exit sleepworker\n"
-                    "[INFO] all files will be closed and all memory will free'd\n");
-            cleanUp();
-            exit(signum);
-            break; // will never reached
+	switch (signum) {
+		case SIGINT:
+			output(parameter.errorFile, "\n[INFO] Caught signal %s\n", "SIGINT");
+			output(parameter.outputFile, "\nCaught signal %s\n", "SIGINT");
+			output(parameter.errorFile, "[INFO] exit sleepworker\n"
+			       "[INFO] all files will be closed and all memory will free'd\n");
+			cleanUp();
+			exit(signum);
+			break; // will never reached
 
-        default: // open for other signals
-            output(parameter.errorFile, "[INFO] Caught signal %d\n", signum);
-            break;
-    }
-    return; // will never reached
+			default: // open for other signals
+				output(parameter.errorFile, "[INFO] Caught signal %d\n", signum);
+			break;
+	}
+	return; // will never reached
 }
 
 /**
@@ -293,90 +293,84 @@ boolean file_exists(const char * filename){
  * \param char** argv: the commandline arguments
  *
  * \return exit(EXIT_SUCCESS): this line will never be reached
- */
+	 */
 int main(int argc, char** argv) {
 
-    int rc = 1;
-    double loadavg[4];
-    int mode;
+	int rc = 1;
+	double loadavg[4];
+	int mode;
 
-    /**
-     * \todo implement the chk root method here
-     * but attentione, there had to be an argument to disable 
-     * these funktion, if the user only checks other thinks??
-     * realy?? Whats your opinion?
-     */
-    /* register Signalhandler */
-    signal(SIGINT, sigHandler);
+	/**
+	 * \todo implement the chk root method here
+	 * but attentione, there had to be an argument to disable 
+	 * these funktion, if the user only checks other thinks??
+	 * realy?? Whats your opinion?
+	 */
+	/* register Signalhandler */
+	signal(SIGINT, sigHandler);
 
-    /* initialize the sleepworker. clean all logfiles
-     * and executes user defined funktions */
-    initialize(argc, argv); 
+	/* initialize the sleepworker. clean all logfiles
+	 * and executes user defined funktions */
+	initialize(argc, argv); 
 
-    /* set startmode to waiting */
-    mode = WAITING;
+	/* set startmode to waiting */
+	mode = WAITING;
 
-    sleep(1); /* otherwise, the interrupt from pressing "ENTER" crashes*/
+	sleep(1); /* otherwise, the interrupt from pressing "ENTER" crashes*/
 
-    while (TRUE) {
+	while (TRUE) {
 
-        if (mode == WAITING) { /* mode is waiting */
-            DEBUG(("mode is waiting\n"));
-            rc = ew_eventWatch(parameter.timeToSleep);
-        } else { /* node can do a job */
-            DEBUG(("mode is sleeping\n"));
-            rc = ew_eventWatch(0);
-        }
-
-        /*get loadvalue */
-        getloadavg(loadavg, 4);
-        DEBUG(("loadavg 1 min is %lf\n", loadavg[0]));
-        if (loadavg[0] <= parameter.loadavg1) { /* tests loadavg */
-
-            if (rc == 0) { /* sleeptime elapsed */
-                DEBUG(("rc = %d\n", rc));
-		if (file_exists(parameter.disableFilename) == TRUE) {
-			output(parameter.outputFile, "File to disable Sleepcommand exists.\n"
-				"start new in %d seconds\n",
-				parameter.timeToWait);
-			sleep(parameter.timeToWait);
-		} else {
-	                mode = SLEEPING;
-	                output(parameter.outputFile, "node is not in use, "
-	                        "execute sleepCommand\n");
-	                sleepf();
+		if (mode == WAITING) { /* mode is waiting */
+			DEBUG(("mode is waiting\n"));
+			rc = ew_eventWatch(parameter.timeToSleep);
+		} else { /* node can do a job */
+			DEBUG(("mode is sleeping\n"));
+			rc = ew_eventWatch(0);
 		}
-	    } else if (rc < 0) {
-		output(parameter.outputFile, "cant open events\n");
-                mode = WAITING;
-                output(parameter.outputFile, "start new in %d seconds\n",
-                        parameter.timeToWait);
-                sleep(parameter.timeToWait);
-            } else {
-                DEBUG(("rc = %d \n", rc));
-                output(parameter.outputFile, "an event occurred\n");
-                if (mode == SLEEPING) { /* old mode is sleeping */
-                    /**
-                     * \todo if mode sleeping, there is an other event
-                     * than mode is wake up??.. not yet
-                     */
-                    output(parameter.outputFile,
-                            "Node waked up, execute wakeUpCommand\n");
-                    mode = WAKEUP;
-                    wakeupf();
-                }
-                mode = WAITING;
-                output(parameter.outputFile, "start new in %d seconds\n",
-                        parameter.timeToWait);
-                sleep(parameter.timeToWait);
-            } // if rc == 0
 
-        } else {
-            output(parameter.outputFile, "load to hight, start new in %d seconds\n",
-                    parameter.timeToWait);
-            DEBUG(("load to hight\n"));
-            sleep(parameter.timeToWait);
-        } // if loadavg <= parameter.loadavg1
-    } // while true
-    return (EXIT_SUCCESS);
+		if (rc == 0) { /* sleeptime elapsed */
+			DEBUG(("rc = %d\n", rc));
+			getloadavg(loadavg, 4);
+			if (file_exists(parameter.disableFilename) == TRUE) {
+				output(parameter.outputFile, "File to disable Sleepcommand exists.\n"
+				       "start new in %d seconds\n",
+				       parameter.timeToWait);
+				sleep(parameter.timeToWait);
+			} else if (loadavg[0] <= parameter.loadavg1 || parameter.loadavg1 == 0 ) { /* tests loadavg */
+				output(parameter.outputFile, "load to hight, start new in %d seconds\n",
+				       parameter.timeToWait);
+				DEBUG(("load to hight\n"));
+				sleep(parameter.timeToWait);
+			} else {
+				mode = SLEEPING;
+				output(parameter.outputFile, "node is not in use, "
+				       "execute sleepCommand\n");
+				sleepf();
+			} /* test to execute sleepcommands */
+		} else if (rc < 0) { /* sleeptime elapsed */
+			output(parameter.outputFile, "cant open events\n");
+			mode = WAITING;
+			output(parameter.outputFile, "start new in %d seconds\n",
+			       parameter.timeToWait);
+			sleep(parameter.timeToWait);
+		} else { /* sleeptime elapsed */
+			DEBUG(("rc = %d \n", rc));
+			output(parameter.outputFile, "an event occurred\n");
+			if (mode == SLEEPING) { /* old mode is sleeping */
+				/**
+				 * \todo if mode sleeping, there is an other event
+				 * than mode is wake up??.. not yet
+				 */
+				output(parameter.outputFile,
+				       "Node waked up, execute wakeUpCommand\n");
+				mode = WAKEUP;
+				wakeupf();
+			}
+			mode = WAITING;
+			output(parameter.outputFile, "start new in %d seconds\n",
+			       parameter.timeToWait);
+			sleep(parameter.timeToWait);
+		} // if rc == 0
+	} // while true
+	return (EXIT_SUCCESS); // never reached :)
 }

@@ -1,6 +1,13 @@
 sleepworker for Linux
 ----------------------
 
+05.02.2012	--	create method for disabling loadvalue test
+
+08.01.2012	--	disables Loadwatcher befor WakeUpCommand
+		--	add function to disable Loadwatcher
+
+02.01.2012	--	add a handler for handling if no device was found
+
 18.08.2011	--	implement an init and close method (Tracker ID ID: 3390960)
 		--	chk for root (not realy implemented)
 		--	ATTENTION change short parameters of input and outputfile from Big I and O to small letters i and o, because the big letter I is used for init command

@@ -22,7 +22,7 @@ void is_printUsage(FILE* stream, int exit_code, char* program_name) {
             " -w --waittime TIME\t\tSet the WAITTIME in seconds, "
             "default is 600 sec\n"
             " -l --loadavg VALUE\t\tSet the maximum loadavg 1min, "
-            "default is 1.5\n"
+            "default is 0.0 (disabled)\n"
             " -o --outputfile FILENAME\tWrite output to file. "
             "If file exists, it will be overwritten\n"
             " -v --verbose\t\t\tPrint verbose messages.\n"
@@ -48,7 +48,7 @@ void is_initArgs() {
     parameter.timeToSleep = DEFAULT_SLEEP_TIME;
     parameter.timeToWait = DEFAULT_WAIT_TIME;
     parameter.verbose = FALSE;
-    parameter.loadavg1 = 1.5;
+    parameter.loadavg1 = 0.0;
     parameter.initCommand = NULL;
     parameter.wakeUpCommand = NULL;
     parameter.sleepCommand = NULL;

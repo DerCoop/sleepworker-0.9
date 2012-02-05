@@ -20,6 +20,7 @@ extern "C" {
 //#include <string.h>
 //#include <errno.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #include "initSleepworker.h"
 #include "eventwatch.h"
